@@ -1,0 +1,25 @@
+﻿  MyForm.cpp
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\myform.h(2): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\myform.h(3): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\myform.h(4): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\myform.h(5): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\myform1.h(2): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\myform1.h(3): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\myform1.h(4): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\eventos.h(2): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\myform1.h(5): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\myform1.h(6): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\dia.h(2): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\dia.h(3): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\dia.h(4): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\dia.h(5): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\dia.h(6): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\myform1.h(7): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\myform1.h(8): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\claseusuario.h(2): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\claseusuario.h(3): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\claseusuario.h(4): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\claseusuario.h(5): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+c:\users\warfa\source\repos\proyecto2avanzada_calendario\proyecto2avanzada_calendario\myform.h(6): warning C4067: símbolos (token) inesperados después de la directiva del preprocesador; se esperaba una nueva línea
+  actividades.obj : se encontró un módulo MSIL; vinculación incremental deshabilitada para MSIL; ejecutando vínculo completo
+  Proyecto2Avanzada_Calendario.vcxproj -> C:\Users\warfa\source\repos\Proyecto2Avanzada_Calendario\Debug\Proyecto2Avanzada_Calendario.exe
