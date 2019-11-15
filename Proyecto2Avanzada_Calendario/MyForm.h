@@ -1,9 +1,13 @@
 #pragma once
 #include <iostream>;
 #include <string>;
+#include <utility>;
+#include <map>;
+#include <iomanip>;
 #include <msclr\marshal_cppstd.h>;
 #include "MyForm1.h";
 #include "claseUsuario.h";
+#include <iostream>;
 namespace Proyecto2AvanzadaCalendario {	 
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -12,6 +16,7 @@ namespace Proyecto2AvanzadaCalendario {
 	using namespace System::Data;
 	using namespace System::Drawing;
 	using namespace std;
+	
 	claseUsuario datosUsuario;
 
 	/// <summary>
@@ -64,6 +69,7 @@ namespace Proyecto2AvanzadaCalendario {
 
 	private: System::Windows::Forms::Button^  button4;
 	private: System::Windows::Forms::Button^  button3;
+	private: System::Windows::Forms::Button^  button5;
 
 
 	protected:
@@ -94,6 +100,7 @@ namespace Proyecto2AvanzadaCalendario {
 			this->listBox1 = (gcnew System::Windows::Forms::ListBox());
 			this->button4 = (gcnew System::Windows::Forms::Button());
 			this->button3 = (gcnew System::Windows::Forms::Button());
+			this->button5 = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
 			// monthCalendar1
@@ -182,10 +189,10 @@ namespace Proyecto2AvanzadaCalendario {
 			// 
 			this->listBox1->FormattingEnabled = true;
 			this->listBox1->HorizontalScrollbar = true;
-			this->listBox1->Location = System::Drawing::Point(412, 161);
+			this->listBox1->Location = System::Drawing::Point(412, 18);
 			this->listBox1->Name = L"listBox1";
 			this->listBox1->ScrollAlwaysVisible = true;
-			this->listBox1->Size = System::Drawing::Size(224, 160);
+			this->listBox1->Size = System::Drawing::Size(282, 303);
 			this->listBox1->TabIndex = 12;
 			// 
 			// button4
@@ -208,11 +215,22 @@ namespace Proyecto2AvanzadaCalendario {
 			this->button3->UseVisualStyleBackColor = true;
 			this->button3->Click += gcnew System::EventHandler(this, &MyForm::button3_Click_1);
 			// 
+			// button5
+			// 
+			this->button5->Location = System::Drawing::Point(233, 240);
+			this->button5->Name = L"button5";
+			this->button5->Size = System::Drawing::Size(149, 23);
+			this->button5->TabIndex = 16;
+			this->button5->Text = L"Guardar Datos";
+			this->button5->UseVisualStyleBackColor = true;
+			this->button5->Click += gcnew System::EventHandler(this, &MyForm::button5_Click);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(660, 351);
+			this->ClientSize = System::Drawing::Size(724, 351);
+			this->Controls->Add(this->button5);
 			this->Controls->Add(this->button3);
 			this->Controls->Add(this->button4);
 			this->Controls->Add(this->listBox1);
@@ -275,24 +293,93 @@ private: System::Void button4_Click_1(System::Object^  sender, System::EventArgs
 private: System::Void dataGridView1_CellContentClick(System::Object^  sender, System::Windows::Forms::DataGridViewCellEventArgs^  e) {
 }
 private: System::Void button3_Click_1(System::Object^  sender, System::EventArgs^  e) {
+	//Limpiando el ListBox
 	listBox1->Items->Clear();
+	// Fecha seleccionada en el monthCalendar
 	String^ fechaSeleccionado = monthCalendar1->SelectionRange->Start.ToString("dd MMM yyyy");
 	msclr::interop::marshal_context context;
+	// Fecha Seleccionada convertida a std 
 	std::string standarFechaSeleccionada= context.marshal_as<std::string>(fechaSeleccionado);
+	// Impresion de la fecha Seleccionada en el ListBox
 	listBox1->Items->Add("Eventos del: " + fechaSeleccionado);
 	bool emptyEvents = false;
+	String^ tipoEvento;
+	String^ descripcionEvento;
+	String^ prioridadEvento;
+	// For each que recorre los dias Registrados (Dias con eventos)
 	for each (dia diasRegistrados in datosUsuario.dias)
 	{
+		// Verifica si la fecha del dia registrado es igual a la fecha seleccionada en el monthCalendar
 		if (diasRegistrados.fecha == standarFechaSeleccionada)
 		{	
-			for each (eventos eventosRegistrados in diasRegistrados.eventos)
+			// Recorre los eventos Registrados en el dia 
+			multimap<std::string, eventosRegistrados>::iterator eventosEnDia = diasRegistrados.eventos.begin();
+			while (eventosEnDia != diasRegistrados.eventos.end())
 			{
-				listBox1->Items->Add("");
-				String^ descripcionEvento = gcnew String(eventosRegistrados.Descripcion.c_str());
-				String^ PrioridadEvento = gcnew String(eventosRegistrados.prioridad.c_str());
-				listBox1->Items->Add("Id del Evento: " + eventosRegistrados.idEvento.ToString());
-				listBox1->Items->Add("Descripcion del Evento: " + descripcionEvento);
-				listBox1->Items->Add("prioridad del Evento: " + PrioridadEvento);
+			
+				// Si la llave es actividad muestra las actividades
+				if (eventosEnDia->first == "actividad")
+				{
+					listBox1->Items->Add("");
+					// Convierte las propiedades de los eventos a String
+					tipoEvento = gcnew String(eventosEnDia->first.c_str());
+					descripcionEvento = gcnew String(eventosEnDia->second.Descripcion.c_str());
+					prioridadEvento = gcnew String(eventosEnDia->second.prioridad.c_str());
+					String^ horaInicio = gcnew String(eventosEnDia->second.horaInicio.c_str());
+					String^ horaFin = gcnew String(eventosEnDia->second.horaFin.c_str());
+					String^ lugarReunion = gcnew String(eventosEnDia->second.lugarReunion.c_str());
+					String^ personaInvolucrada = gcnew String(eventosEnDia->second.personaInvolucrada.c_str());
+					String^ materiales = gcnew String(eventosEnDia->second.materiales.c_str());
+
+					// imprime las propiedades del evento en el ListBox
+					listBox1->Items->Add("Tipo de Evento: " + tipoEvento);
+					listBox1->Items->Add("Id del Evento: " + eventosEnDia->second.idEvento.ToString());
+					listBox1->Items->Add("Descripcion del Evento: " + descripcionEvento);
+					listBox1->Items->Add("prioridad del Evento: " + prioridadEvento);
+					listBox1->Items->Add("Hora de Inicio: " + horaInicio);
+					listBox1->Items->Add("Hora de Finalizacion: " + horaFin);
+					listBox1->Items->Add("Lugar de Reunion: " + lugarReunion);
+					listBox1->Items->Add("Persona Involucrada: " + personaInvolucrada);
+					listBox1->Items->Add("Materiales: " + materiales);
+
+				}
+				// Si la llave es Recordatorio muestra los Recordatorios
+				if (eventosEnDia->first == "recordatorio")
+				{
+					listBox1->Items->Add("");
+					tipoEvento = gcnew String(eventosEnDia->first.c_str());
+					descripcionEvento = gcnew String(eventosEnDia->second.Descripcion.c_str());
+					prioridadEvento = gcnew String(eventosEnDia->second.prioridad.c_str());
+					String^ horaLimite = gcnew String(eventosEnDia->second.horaLimite.c_str());
+
+					// imprime las propiedades del evento en el ListBox
+					listBox1->Items->Add("Tipo de Evento: " + tipoEvento);
+					listBox1->Items->Add("Id del Evento: " + eventosEnDia->second.idEvento.ToString());
+					listBox1->Items->Add("Descripcion del Evento: " + descripcionEvento);
+					listBox1->Items->Add("prioridad del Evento: " + prioridadEvento);
+					listBox1->Items->Add("Hora Limite de Recordatorio: " + horaLimite);
+
+				}
+
+				// Si la llave es Àlarma muestra las Alarmas
+				if (eventosEnDia->first == "alarma")
+				{
+					listBox1->Items->Add("");
+					tipoEvento = gcnew String(eventosEnDia->first.c_str());
+					descripcionEvento = gcnew String(eventosEnDia->second.Descripcion.c_str());
+					prioridadEvento = gcnew String(eventosEnDia->second.prioridad.c_str());
+					String^ horaLimite = gcnew String(eventosEnDia->second.horaLimite.c_str());
+
+					// imprime las propiedades del evento en el ListBox
+					listBox1->Items->Add("Tipo de Evento: " + tipoEvento);
+					listBox1->Items->Add("Id del Evento: " + eventosEnDia->second.idEvento.ToString());
+					listBox1->Items->Add("Descripcion del Evento: " + descripcionEvento);
+					listBox1->Items->Add("prioridad del Evento: " + prioridadEvento);
+					listBox1->Items->Add("Hora Limite de Recordatorio: " + horaLimite);
+				}
+
+				//Siguiente evento 
+				eventosEnDia++;
 			}
 			listBox1->Items->Add("--------------------------------------------------------------");
 			emptyEvents = false;
@@ -308,6 +395,9 @@ private: System::Void button3_Click_1(System::Object^  sender, System::EventArgs
 		listBox1->Items->Add("");
 		listBox1->Items->Add("Aun no hay eventos agendados!");
 	}
+}
+private: System::Void button5_Click(System::Object^  sender, System::EventArgs^  e) {
+
 }
 };
 }

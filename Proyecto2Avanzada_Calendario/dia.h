@@ -1,14 +1,13 @@
 #pragma once
 #include <iostream>; 
 #include <string>;
-#include <vector>;
-#include "eventos.h";
-#include "actividades.h";
+#include <map>;
+#include "eventosRegistrados.h";
 class dia
 {
 	public:
 		std::string fecha;
-		std::vector<eventos> eventos;
+		std::multimap<std::string,eventosRegistrados> eventos;
 	public:
 		dia();
 		~dia();

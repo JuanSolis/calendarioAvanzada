@@ -139,6 +139,7 @@
     <ClCompile Include="dia.cpp" />
     <ClCompile Include="eventos.cpp" />
     <ClCompile Include="eventosConHoraLimite.cpp" />
+    <ClCompile Include="eventosRegistrados.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="MyForm1.cpp" />
     <ClCompile Include="MyForm2.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="dia.h" />
     <ClInclude Include="eventos.h" />
     <ClInclude Include="eventosConHoraLimite.h" />
+    <ClInclude Include="eventosRegistrados.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>

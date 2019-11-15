@@ -1,11 +1,17 @@
 #pragma once
 #include <iostream>;
 #include <string>;
-#include "eventos.h";
 #include "actividades.h";
+#include "recordatorios.h";
+#include "alarmas.h";
 #include "dia.h";
 #include <msclr\marshal_cppstd.h>;
 #include "claseUsuario.h";
+#include <utility>
+#include <map>
+#include <iomanip>
+#include "eventosRegistrados.h";
+
 namespace Proyecto2AvanzadaCalendario {
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -15,7 +21,7 @@ namespace Proyecto2AvanzadaCalendario {
 	using namespace System::Drawing;
 	static dia diaActual;
 	extern claseUsuario datosUsuario;
-
+	using namespace std;
 	/// <summary>
 	/// Resumen de MyForm1
 	/// </summary>
@@ -163,6 +169,7 @@ namespace Proyecto2AvanzadaCalendario {
 			this->radioActividades->TabIndex = 3;
 			this->radioActividades->Text = L"Actividades";
 			this->radioActividades->UseVisualStyleBackColor = true;
+			this->radioActividades->CheckedChanged += gcnew System::EventHandler(this, &MyForm1::radioActividades_CheckedChanged);
 			// 
 			// groupBox1
 			// 
@@ -175,6 +182,7 @@ namespace Proyecto2AvanzadaCalendario {
 			this->groupBox1->TabIndex = 6;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"Eventos a Seleccionar";
+			this->groupBox1->Enter += gcnew System::EventHandler(this, &MyForm1::groupBox1_Enter);
 			// 
 			// radioAlarmas
 			// 
@@ -186,6 +194,7 @@ namespace Proyecto2AvanzadaCalendario {
 			this->radioAlarmas->TabIndex = 5;
 			this->radioAlarmas->Text = L"Alarmas";
 			this->radioAlarmas->UseVisualStyleBackColor = true;
+			this->radioAlarmas->CheckedChanged += gcnew System::EventHandler(this, &MyForm1::radioAlarmas_CheckedChanged);
 			// 
 			// radioRecordatorios
 			// 
@@ -197,6 +206,7 @@ namespace Proyecto2AvanzadaCalendario {
 			this->radioRecordatorios->TabIndex = 4;
 			this->radioRecordatorios->Text = L"Recordatorios";
 			this->radioRecordatorios->UseVisualStyleBackColor = true;
+			this->radioRecordatorios->CheckedChanged += gcnew System::EventHandler(this, &MyForm1::radioRecordatorios_CheckedChanged);
 			// 
 			// label3
 			// 
@@ -410,18 +420,21 @@ namespace Proyecto2AvanzadaCalendario {
 	private: System::Void radioButton3_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
 	}
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+	// Convierte String^ a string
 	msclr::interop::marshal_context context;
 	std::string standarDate = context.marshal_as<std::string>(fechaRecibida);
 	diaActual.fecha = standarDate;
+	std::string standarIdEvento = context.marshal_as<std::string>(txtIdEvento->Text->ToString());
+	std::string standarDescription = context.marshal_as<std::string>(txtDescripcion->Text->ToString());
+	std::string standarPrioridad = context.marshal_as<std::string>(txtPrioridad->Text->ToString());
+	// si desea agregar actividad
 	if (radioActividades->Checked == true)
 	{
 		actividades actividadesActuales;
-		std::string standarIdEvento = context.marshal_as<std::string>(txtIdEvento->Text->ToString());
 		actividadesActuales.idEvento = atoi(standarIdEvento.c_str());
-		std::string standarDescription = context.marshal_as<std::string>(txtDescripcion->Text->ToString());
 		actividadesActuales.Descripcion = standarDescription;
-		std::string standarPrioridad = context.marshal_as<std::string>(txtPrioridad->Text->ToString());
 		actividadesActuales.prioridad = standarPrioridad;
+		// Convierte String^ a string
 		std::string standarHoraInicio = context.marshal_as<std::string>(Convert::ToDateTime(horaInicio->Value.ToShortTimeString()).ToString("h:mm tt"));
 		actividadesActuales.horaInicio = standarHoraInicio;
 		std::string standarHoraFinalizacion = context.marshal_as<std::string>(Convert::ToDateTime(horaFinalizacion->Value.ToShortTimeString()).ToString("h:mm tt"));
@@ -431,7 +444,26 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 		std::string standarMateriales = context.marshal_as<std::string>(txtMateriales->Text->ToString());
 		actividadesActuales.materiales = standarMateriales;
 		actividadesActuales.personaInvolucrada = "Ninguna";
-		diaActual.eventos.push_back(actividadesActuales);
+		// sobrecarga a eventoRegistrado con Actividad
+		eventosRegistrados eventosListados(actividadesActuales);
+		diaActual.eventos.insert(pair<string, eventosRegistrados>("actividad", eventosListados));
+	}
+	// si desea agregar recordatorio
+	if (radioRecordatorios->Checked == true)
+	{
+		recordatorios recordatoriosActuales;
+		std::string standarIdEvento = context.marshal_as<std::string>(txtIdEvento->Text->ToString());
+		recordatoriosActuales.idEvento = atoi(standarIdEvento.c_str());
+		std::string standarDescription = context.marshal_as<std::string>(txtDescripcion->Text->ToString());
+		recordatoriosActuales.Descripcion = standarDescription;
+		std::string standarPrioridad = context.marshal_as<std::string>(txtPrioridad->Text->ToString());
+		recordatoriosActuales.prioridad = standarPrioridad;
+		std::string standarHoraLimite = context.marshal_as<std::string>(Convert::ToDateTime(horaLimite->Value.ToShortTimeString()).ToString("h:mm tt"));
+		recordatoriosActuales.horaLimite = standarHoraLimite;
+		std::string standarHoraFinalizacion = context.marshal_as<std::string>(Convert::ToDateTime(horaFinalizacion->Value.ToShortTimeString()).ToString("h:mm tt"));
+		// sobrecarga a eventoRegistrado con Recordatorio
+		eventosRegistrados eventosListados(recordatoriosActuales);
+		diaActual.eventos.insert(pair<string, eventosRegistrados>("recordatorio", eventosListados));
 	}
 	
 
@@ -440,6 +472,10 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 		txtIdEvento->Text = "";
 		txtDescripcion->Text = "";
 		txtPrioridad->Text = "";
+		if (radioActividades->Checked == true)
+		{
+			radioActividades->Checked = false;
+		}
 	}
 	else
 	{
@@ -453,6 +489,46 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
 
 
+}
+private: System::Void groupBox1_Enter(System::Object^  sender, System::EventArgs^  e) {
+
+}
+private: System::Void radioActividades_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+	if (radioActividades->Checked == true)
+	{
+		horaLimite->Enabled = false;
+		horaInicio->Enabled = true;
+		horaFinalizacion->Enabled = true;
+		txtLugarReunion->Enabled = true;
+		txtPersonaInvolucrada->Enabled = true;
+		txtMateriales->Enabled = true;
+	}
+
+}
+private: System::Void radioRecordatorios_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+
+
+	if (radioRecordatorios->Checked == true)
+	{
+		horaLimite->Enabled = true;
+		horaInicio->Enabled = false;
+		horaFinalizacion->Enabled = false;
+		txtLugarReunion->Enabled = false;
+		txtPersonaInvolucrada->Enabled = false;
+		txtMateriales->Enabled = false;
+	}
+}
+private: System::Void radioAlarmas_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
+
+	if (radioAlarmas->Checked == true)
+	{
+		horaLimite->Enabled = true;
+		horaInicio->Enabled = false;
+		horaFinalizacion->Enabled = false;
+		txtLugarReunion->Enabled = false;
+		txtPersonaInvolucrada->Enabled = false;
+		txtMateriales->Enabled = false;
+	}
 }
 };
 }
