@@ -8,6 +8,8 @@
 #include "MyForm1.h";
 #include "claseUsuario.h";
 #include <iostream>;
+#include <fstream>;
+
 namespace Proyecto2AvanzadaCalendario {	 
 	using namespace System;
 	using namespace System::ComponentModel;
@@ -17,7 +19,7 @@ namespace Proyecto2AvanzadaCalendario {
 	using namespace System::Drawing;
 	using namespace std;
 	
-	claseUsuario datosUsuario;
+	extern claseUsuario datosUsuario;
 
 	/// <summary>
 	/// Resumen de MyForm
@@ -25,10 +27,10 @@ namespace Proyecto2AvanzadaCalendario {
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
 	public:
-		MyForm()
+		MyForm(std::string usuarioRegistrado)
 		{
 			InitializeComponent();
-
+			datosUsuario.usuario = usuarioRegistrado;
 			//
 			//TODO: agregar código de constructor aquí
 			//
@@ -70,6 +72,8 @@ namespace Proyecto2AvanzadaCalendario {
 	private: System::Windows::Forms::Button^  button4;
 	private: System::Windows::Forms::Button^  button3;
 	private: System::Windows::Forms::Button^  button5;
+	private: System::Windows::Forms::Label^  label5;
+	private: System::Windows::Forms::Label^  label6;
 
 
 	protected:
@@ -101,11 +105,13 @@ namespace Proyecto2AvanzadaCalendario {
 			this->button4 = (gcnew System::Windows::Forms::Button());
 			this->button3 = (gcnew System::Windows::Forms::Button());
 			this->button5 = (gcnew System::Windows::Forms::Button());
+			this->label5 = (gcnew System::Windows::Forms::Label());
+			this->label6 = (gcnew System::Windows::Forms::Label());
 			this->SuspendLayout();
 			// 
 			// monthCalendar1
 			// 
-			this->monthCalendar1->Location = System::Drawing::Point(29, 161);
+			this->monthCalendar1->Location = System::Drawing::Point(39, 181);
 			this->monthCalendar1->MaxSelectionCount = 1;
 			this->monthCalendar1->MinDate = System::DateTime(2019, 1, 1, 0, 0, 0, 0);
 			this->monthCalendar1->Name = L"monthCalendar1";
@@ -115,7 +121,7 @@ namespace Proyecto2AvanzadaCalendario {
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(40, 112);
+			this->button1->Location = System::Drawing::Point(50, 146);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(122, 23);
 			this->button1->TabIndex = 3;
@@ -125,7 +131,7 @@ namespace Proyecto2AvanzadaCalendario {
 			// 
 			// lblAño
 			// 
-			this->lblAño->Location = System::Drawing::Point(62, 32);
+			this->lblAño->Location = System::Drawing::Point(72, 64);
 			this->lblAño->Name = L"lblAño";
 			this->lblAño->Size = System::Drawing::Size(100, 20);
 			this->lblAño->TabIndex = 4;
@@ -134,7 +140,7 @@ namespace Proyecto2AvanzadaCalendario {
 			// label1
 			// 
 			this->label1->AutoSize = true;
-			this->label1->Location = System::Drawing::Point(12, 35);
+			this->label1->Location = System::Drawing::Point(22, 67);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(32, 13);
 			this->label1->TabIndex = 5;
@@ -143,7 +149,7 @@ namespace Proyecto2AvanzadaCalendario {
 			// label2
 			// 
 			this->label2->AutoSize = true;
-			this->label2->Location = System::Drawing::Point(12, 74);
+			this->label2->Location = System::Drawing::Point(22, 106);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(30, 13);
 			this->label2->TabIndex = 7;
@@ -151,7 +157,7 @@ namespace Proyecto2AvanzadaCalendario {
 			// 
 			// lblMes
 			// 
-			this->lblMes->Location = System::Drawing::Point(62, 71);
+			this->lblMes->Location = System::Drawing::Point(72, 103);
 			this->lblMes->Name = L"lblMes";
 			this->lblMes->Size = System::Drawing::Size(100, 20);
 			this->lblMes->TabIndex = 6;
@@ -160,7 +166,7 @@ namespace Proyecto2AvanzadaCalendario {
 			// label3
 			// 
 			this->label3->AutoSize = true;
-			this->label3->Location = System::Drawing::Point(168, 35);
+			this->label3->Location = System::Drawing::Point(178, 67);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(82, 13);
 			this->label3->TabIndex = 8;
@@ -169,7 +175,7 @@ namespace Proyecto2AvanzadaCalendario {
 			// label4
 			// 
 			this->label4->AutoSize = true;
-			this->label4->Location = System::Drawing::Point(168, 74);
+			this->label4->Location = System::Drawing::Point(178, 106);
 			this->label4->Name = L"label4";
 			this->label4->Size = System::Drawing::Size(72, 13);
 			this->label4->TabIndex = 9;
@@ -177,7 +183,7 @@ namespace Proyecto2AvanzadaCalendario {
 			// 
 			// button2
 			// 
-			this->button2->Location = System::Drawing::Point(175, 112);
+			this->button2->Location = System::Drawing::Point(185, 146);
 			this->button2->Name = L"button2";
 			this->button2->Size = System::Drawing::Size(75, 23);
 			this->button2->TabIndex = 11;
@@ -189,7 +195,7 @@ namespace Proyecto2AvanzadaCalendario {
 			// 
 			this->listBox1->FormattingEnabled = true;
 			this->listBox1->HorizontalScrollbar = true;
-			this->listBox1->Location = System::Drawing::Point(412, 18);
+			this->listBox1->Location = System::Drawing::Point(412, 40);
 			this->listBox1->Name = L"listBox1";
 			this->listBox1->ScrollAlwaysVisible = true;
 			this->listBox1->Size = System::Drawing::Size(282, 303);
@@ -197,7 +203,7 @@ namespace Proyecto2AvanzadaCalendario {
 			// 
 			// button4
 			// 
-			this->button4->Location = System::Drawing::Point(233, 162);
+			this->button4->Location = System::Drawing::Point(243, 182);
 			this->button4->Name = L"button4";
 			this->button4->Size = System::Drawing::Size(149, 23);
 			this->button4->TabIndex = 14;
@@ -207,7 +213,7 @@ namespace Proyecto2AvanzadaCalendario {
 			// 
 			// button3
 			// 
-			this->button3->Location = System::Drawing::Point(233, 201);
+			this->button3->Location = System::Drawing::Point(243, 221);
 			this->button3->Name = L"button3";
 			this->button3->Size = System::Drawing::Size(149, 23);
 			this->button3->TabIndex = 15;
@@ -217,7 +223,7 @@ namespace Proyecto2AvanzadaCalendario {
 			// 
 			// button5
 			// 
-			this->button5->Location = System::Drawing::Point(233, 240);
+			this->button5->Location = System::Drawing::Point(243, 260);
 			this->button5->Name = L"button5";
 			this->button5->Size = System::Drawing::Size(149, 23);
 			this->button5->TabIndex = 16;
@@ -225,11 +231,35 @@ namespace Proyecto2AvanzadaCalendario {
 			this->button5->UseVisualStyleBackColor = true;
 			this->button5->Click += gcnew System::EventHandler(this, &MyForm::button5_Click);
 			// 
+			// label5
+			// 
+			this->label5->AutoSize = true;
+			this->label5->Font = (gcnew System::Drawing::Font(L"Palatino Linotype", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label5->Location = System::Drawing::Point(20, 9);
+			this->label5->Name = L"label5";
+			this->label5->Size = System::Drawing::Size(123, 28);
+			this->label5->TabIndex = 17;
+			this->label5->Text = L"Agenda de ";
+			// 
+			// label6
+			// 
+			this->label6->AutoSize = true;
+			this->label6->Font = (gcnew System::Drawing::Font(L"Palatino Linotype", 15.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label6->Location = System::Drawing::Point(133, 9);
+			this->label6->Name = L"label6";
+			this->label6->Size = System::Drawing::Size(72, 28);
+			this->label6->TabIndex = 18;
+			this->label6->Text = L"label6";
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(724, 351);
+			this->ClientSize = System::Drawing::Size(724, 387);
+			this->Controls->Add(this->label6);
+			this->Controls->Add(this->label5);
 			this->Controls->Add(this->button5);
 			this->Controls->Add(this->button3);
 			this->Controls->Add(this->button4);
@@ -255,7 +285,8 @@ namespace Proyecto2AvanzadaCalendario {
 	private: System::Void dateTimePicker1_ValueChanged(System::Object^  sender, System::EventArgs^  e) {
 	}
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
-
+		String^ userActual = gcnew String(datosUsuario.usuario.c_str());
+		label6->Text = userActual;
 	}
 
 	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -284,8 +315,6 @@ private: System::Void button4_Click(System::Object^  sender, System::EventArgs^ 
 }
 private: System::Void button4_Click_1(System::Object^  sender, System::EventArgs^  e) {
 	String^ date = monthCalendar1->SelectionRange->Start.ToString("dd MMM yyyy");
-	msclr::interop::marshal_context context;
-	std::string standarDate = context.marshal_as<std::string>(date);
 	MyForm1^ frmEventos = gcnew MyForm1(date);
 	frmEventos->Show();
 
@@ -398,6 +427,43 @@ private: System::Void button3_Click_1(System::Object^  sender, System::EventArgs
 }
 private: System::Void button5_Click(System::Object^  sender, System::EventArgs^  e) {
 
+	ofstream file;
+	file.open(datosUsuario.usuario +".txt");
+	std::string idEvento;
+	std::string fecha;
+	msclr::interop::marshal_context context;
+	vector<eventosRegistrados> vectorConEventos;
+	std::string coleccion = "";
+	for each (dia diasRegistrados in datosUsuario.dias)
+	{
+		multimap<std::string, eventosRegistrados>::iterator eventosEnDia = diasRegistrados.eventos.begin();
+		coleccion = "";
+		coleccion += diasRegistrados.fecha;
+		while (eventosEnDia != diasRegistrados.eventos.end())
+		{
+			idEvento = context.marshal_as<std::string>(eventosEnDia->second.idEvento.ToString());
+		
+			if (eventosEnDia->first == "actividad")
+			{
+				coleccion += "," + eventosEnDia->first + "," + idEvento + "," + eventosEnDia->second.Descripcion + "," + eventosEnDia->second.prioridad + "," + eventosEnDia->second.horaInicio + "," + eventosEnDia->second.horaFin + "," + eventosEnDia->second.lugarReunion + "," + eventosEnDia->second.personaInvolucrada + "," + eventosEnDia->second.materiales;
+			}
+			if (eventosEnDia->first == "recordatorio")
+			{
+				coleccion += "," + eventosEnDia->first + "," + idEvento + "," + eventosEnDia->second.Descripcion + "," + eventosEnDia->second.prioridad + "," + eventosEnDia->second.horaLimite;
+
+			}
+			if (eventosEnDia->first == "alarma")
+			{
+				coleccion += "," + eventosEnDia->first + "," + idEvento + "," + eventosEnDia->second.Descripcion + "," + eventosEnDia->second.prioridad + "," + eventosEnDia->second.horaLimite;
+
+			}
+			eventosEnDia++;
+		}
+		file << coleccion + "\n";
+	}
+
+	file.close();
+	System::Windows::Forms::MessageBox::Show("Datos guardados exitosamente!");
 }
 };
 }

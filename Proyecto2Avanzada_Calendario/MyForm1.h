@@ -465,6 +465,24 @@ private: System::Void button1_Click(System::Object^  sender, System::EventArgs^ 
 		eventosRegistrados eventosListados(recordatoriosActuales);
 		diaActual.eventos.insert(pair<string, eventosRegistrados>("recordatorio", eventosListados));
 	}
+
+	// si desea agregar alarma
+	if (radioAlarmas->Checked == true)
+	{
+		alarmas alarmaActuales;
+		std::string standarIdEvento = context.marshal_as<std::string>(txtIdEvento->Text->ToString());
+		alarmaActuales.idEvento = atoi(standarIdEvento.c_str());
+		std::string standarDescription = context.marshal_as<std::string>(txtDescripcion->Text->ToString());
+		alarmaActuales.Descripcion = standarDescription;
+		std::string standarPrioridad = context.marshal_as<std::string>(txtPrioridad->Text->ToString());
+		alarmaActuales.prioridad = standarPrioridad;
+		std::string standarHoraLimite = context.marshal_as<std::string>(Convert::ToDateTime(horaLimite->Value.ToShortTimeString()).ToString("h:mm tt"));
+		alarmaActuales.horaLimite = standarHoraLimite;
+		std::string standarHoraFinalizacion = context.marshal_as<std::string>(Convert::ToDateTime(horaFinalizacion->Value.ToShortTimeString()).ToString("h:mm tt"));
+		// sobrecarga a eventoRegistrado con Recordatorio
+		eventosRegistrados eventosListados(alarmaActuales);
+		diaActual.eventos.insert(pair<string, eventosRegistrados>("alarma", eventosListados));
+	}
 	
 
 	if (System::Windows::Forms::MessageBox::Show("Desea agregar otro evento?", "Confirmación", MessageBoxButtons::YesNo, MessageBoxIcon::Question) == System::Windows::Forms::DialogResult::Yes)
@@ -502,6 +520,8 @@ private: System::Void radioActividades_CheckedChanged(System::Object^  sender, S
 		txtLugarReunion->Enabled = true;
 		txtPersonaInvolucrada->Enabled = true;
 		txtMateriales->Enabled = true;
+		txtLugarReunion->Text = "";
+		txtMateriales->Text = "";
 	}
 
 }
@@ -514,8 +534,10 @@ private: System::Void radioRecordatorios_CheckedChanged(System::Object^  sender,
 		horaInicio->Enabled = false;
 		horaFinalizacion->Enabled = false;
 		txtLugarReunion->Enabled = false;
+		txtLugarReunion->Text = "";
 		txtPersonaInvolucrada->Enabled = false;
 		txtMateriales->Enabled = false;
+		txtMateriales->Text = "";
 	}
 }
 private: System::Void radioAlarmas_CheckedChanged(System::Object^  sender, System::EventArgs^  e) {
@@ -528,6 +550,8 @@ private: System::Void radioAlarmas_CheckedChanged(System::Object^  sender, Syste
 		txtLugarReunion->Enabled = false;
 		txtPersonaInvolucrada->Enabled = false;
 		txtMateriales->Enabled = false;
+		txtLugarReunion->Text = "";
+		txtMateriales->Text = "";
 	}
 }
 };
